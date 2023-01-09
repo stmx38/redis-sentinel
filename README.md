@@ -41,7 +41,7 @@
 
 ## Reset
 
- In order to overcome warnings that Sentinel can't save changes, we provides a write access to the configuratin files. It means tha after the run, files sentinel-1/2/3.conf may be changed.
+ In order to overcome warnings that Sentinel can't save changes, we provides a write access to the configuration files. It means tha after the run, files sentinel-1.2.3.conf may be changed by Sentinel.
 
  After Docker Compose is stopped we may reset these changes
  ```bash
