@@ -1,0 +1,55 @@
+version: '3'
+services:
+
+  redis-1:
+    image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
+    container_name: redis-1
+    command: redis-server --port 6379 --requirepass localpass --masterauth localpass --replica-announce-ip redis-1
+    ports:
+      - 6379:6379
+
+  redis-2:
+    image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
+    container_name: redis-2
+    ports:
+      - 7379:7379
+    command: redis-server --port 7379 --slaveof redis-1 6379 --masterauth localpass --requirepass localpass  --replica-announce-ip redis-2
+
+  replica-3:
+    image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
+    container_name: redis-3
+    ports:
+      - 8379:8379
+    command: redis-server --port 8379 --slaveof redis-1 6379 --masterauth localpass --requirepass localpass  --replica-announce-ip redis-3
+
+  sentinel-1:
+    image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
+    container_name: sentinel-1
+    ports:
+      - 26379:26379
+    command: redis-sentinel /usr/local/etc/sentinel/sentinel-1.conf
+    volumes:
+      - ./:/usr/local/etc/sentinel
+
+  sentinel-2:
+    image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
+    container_name: sentinel-2
+    ports:
+      - 36379:36379
+    command: redis-sentinel /usr/local/etc/sentinel/sentinel-2.conf
+    volumes:
+      - ./:/usr/local/etc/sentinel
+
+  sentinel-3:
+    image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
+    container_name: sentinel-3
+    ports:
+      - 46379:46379
+    command: redis-sentinel /usr/local/etc/sentinel/sentinel-3.conf
+    volumes:
+      - ./:/usr/local/etc/sentinel
+
+networks:
+  default:
+    name: redis_network
+    driver: bridge
