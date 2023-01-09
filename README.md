@@ -36,6 +36,18 @@
   sentinel-3:46379
   ```
 
+ Same password will be used to connect to Redis and Sentinel - `localpass`
+
+
+## Reset
+
+ In order to overcome warnings that Sentinel can't save changes, we provides a write access to the configuratin files. It means tha after the run, files sentinel-1/2/3.conf may be changed.
+
+ After Docker Compose is stopped we may reset these changes
+ ```bash
+ gir restore .
+ ```
+
 
 ## Check
 

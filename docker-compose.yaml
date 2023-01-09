@@ -4,7 +4,7 @@ services:
   redis-1:
     image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
     container_name: redis-1
-    command: redis-server --port 6379 --requirepass localpass --masterauth localpass --replica-announce-ip redis-1
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6379 --requirepass localpass --masterauth localpass --replica-announce-ip redis-1
     ports:
       - 6379:6379
 
@@ -13,14 +13,14 @@ services:
     container_name: redis-2
     ports:
       - 7379:7379
-    command: redis-server --port 7379 --slaveof redis-1 6379 --masterauth localpass --requirepass localpass  --replica-announce-ip redis-2
+    command: redis-server /usr/local/etc/redis/redis.conf --port 7379 --slaveof redis-1 6379 --masterauth localpass --requirepass localpass  --replica-announce-ip redis-2
 
   replica-3:
     image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
     container_name: redis-3
     ports:
       - 8379:8379
-    command: redis-server --port 8379 --slaveof redis-1 6379 --masterauth localpass --requirepass localpass  --replica-announce-ip redis-3
+    command: redis-server /usr/local/etc/redis/redis.conf --port 8379 --slaveof redis-1 6379 --masterauth localpass --requirepass localpass  --replica-announce-ip redis-3
 
   sentinel-1:
     image: stmx38/builds:redis-arm64-7.0.7-redisbloom-2.2.18
